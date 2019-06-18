@@ -169,7 +169,7 @@ public class Main {
             Thread.sleep(12+i*2);
         }
 
-        int currentHeight = p.getyPos();
+        int currentHeight = (terminal.getTerminalSize().getRows()-p.getyPos());
         for (int i = currentHeight; i > 0; i--) {
             oldX = p.getxPos();
             oldY = p.getyPos();
@@ -204,7 +204,7 @@ public class Main {
     }
 
     public static void fall(Player p, int oldX, int oldY, int[][]playGround, int direction, Terminal terminal) throws Exception {
-        int currentHeight = p.getyPos();
+        int currentHeight = (terminal.getTerminalSize().getRows()-p.getyPos());
 
         for (int i = currentHeight; i > 0; i--) {
             oldX = p.getxPos();
