@@ -27,31 +27,25 @@ public class Main {
         int jumpHeight = 7;
         int direction = 1;
 
-        //Set up Enemy
-//        Enemy obs1 = new Enemy(terminal.getTerminalSize().getColumns(), 18, 1);
-//        int oldXO = obs1.getxPos(), oldYO=obs1.getyPos();
+//        //Set up Enemy
+//        Enemy enemy1 = new Enemy(terminal.getTerminalSize().getColumns()-2, 22, 1);
 
-        //Set up Playfield
-//        terminal.setForegroundColor(TextColor.Indexed.fromRGB(170,85,0));
-//        for(int i = 0 ; i < terminal.getTerminalSize().getColumns() ; i++) {
-//            terminal.setCursorPosition(i, 19);
-//            terminal.putCharacter('\u2588');
+        //Set up initial level
+        Level level1 = new Level();
+//        int[][] playGround = new int[80][24];
+//        for (int col = 0; col < playGround.length; col++) {
+//            for (int row = 0; row < playGround[col].length; row++) {
+//                if (col == 0 || col == playGround.length - 1) playGround[col][row] = 1;
+//                else {
+//                    if (row == 0 || row == playGround[col].length - 1) playGround[col][row] = 1;
+//                    else if (col > 40 && row == 19) playGround[col][row] = 1;
+//                    else if (col > 36 && col < 40 && row == 15) playGround[col][row] = 1;
+//                    else if (col == 34 && row > 12 && row < 17) playGround[col][row] = 1;
+//                    else if (col < 35 && row == 17) playGround[col][row] = 1;
+//                    else playGround[col][row] = 0;
+//                }
+//            }
 //        }
-
-        int[][] playGround = new int[80][24];
-        for (int col = 0; col < playGround.length; col++) {
-            for (int row = 0; row < playGround[col].length; row++) {
-                if (col == 0 || col == playGround.length - 1) playGround[col][row] = 1;
-                else {
-                    if (row == 0 || row == playGround[col].length - 1) playGround[col][row] = 1;
-                    else if (col > 40 && row == 19) playGround[col][row] = 1;
-                    else if (col > 36 && col < 40 && row == 15) playGround[col][row] = 1;
-                    else if (col == 34 && row > 12 && row < 17) playGround[col][row] = 1;
-                    else if (col < 35 && row == 17) playGround[col][row] = 1;
-                    else playGround[col][row] = 0;
-                }
-            }
-        }
 
         for (int i = 0; i < playGround.length; i++) {
             for (int j = 0; j < playGround[i].length; j++) {
@@ -64,12 +58,11 @@ public class Main {
         terminal.flush();
 
         terminal.setForegroundColor(TextColor.ANSI.DEFAULT);
-        //terminal.setBackgroundColor(TextColor.Indexed.fromRGB(200,0,0));
         terminal.setBackgroundColor(TextColor.ANSI.GREEN);
         terminal.setCursorPosition(p1.getxPos(), p1.getyPos());
         terminal.putCharacter('O');
 //        terminal.setBackgroundColor(TextColor.ANSI.RED);
-//        terminal.setCursorPosition(obs1.getxPos(),obs1.getyPos());
+//        terminal.setCursorPosition(enemy1.getxPos(),enemy1.getyPos());
 //        terminal.putCharacter('O');
         terminal.flush();
 
@@ -83,15 +76,16 @@ public class Main {
             do {
                 Thread.sleep(5);
                 keyStroke = terminal.pollInput();
-                //move obstacle at interval
-//                if (obs1.getTimer()%80==0) {
-//                    obs1.moveEnemy(terminal, p1);
-//                    obs1.setTimer(1);
+
+//                //move enemy at interval
+//                if (enemy1.getTimer()%80==0) {
+//                    enemy1.moveEnemy(terminal, p1);
+//                    enemy1.setTimer(1);
 //                }
-//                obs1.setTimer(obs1.getTimer()+1);
+//                enemy1.setTimer(enemy1.getTimer()+1);
 //
 //                //check collision
-//                collisionChecker(p1,obs1,terminal);
+//                collisionChecker(p1,enemy1,terminal);
 
             } while (keyStroke == null);
             type = keyStroke.getKeyType();
@@ -115,7 +109,7 @@ public class Main {
                         break;
                     }
                     p1.setxPos(p1.getxPos() + direction);
-                    move(p1, oldX, oldY, terminal/*, obs1*/);
+                    move(p1, oldX, oldY, terminal);
                     if (playGround[p1.getxPos()][p1.getyPos() + 1] == 0 && p1.getyPos() != terminal.getTerminalSize().getRows() - 2) {
                         fall(p1, oldX, oldY, playGround, direction, terminal);
                     }
@@ -128,7 +122,7 @@ public class Main {
                         break;
                     }
                     p1.setxPos(p1.getxPos() + direction);
-                    move(p1, oldX, oldY, terminal/*, obs1*/);
+                    move(p1, oldX, oldY, terminal);
                     if (playGround[p1.getxPos()][p1.getyPos() + 1] == 0 && p1.getyPos() != terminal.getTerminalSize().getRows() - 2) {
                         fall(p1, oldX, oldY, playGround, direction, terminal);
                     }
@@ -194,7 +188,7 @@ public class Main {
         }
     }
 
-    public static void move(Player p, int oldX, int oldY, Terminal terminal/*, Enemy obs1*/) throws Exception {
+    public static void move(Player p, int oldX, int oldY, Terminal terminal) throws Exception {
         terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
         terminal.setCursorPosition(oldX, oldY);
         terminal.putCharacter(' ');
