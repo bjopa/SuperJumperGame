@@ -4,8 +4,6 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
-import java.util.Arrays;
-
 public class Main {
 
     public static void main(String[] args) throws Exception {
@@ -29,8 +27,8 @@ public class Main {
         int jumpHeight = 7;
         int direction = 1;
 
-        //Set up Obstacle
-//        Obstacle obs1 = new Obstacle(terminal.getTerminalSize().getColumns(), 18, 1);
+        //Set up Enemy
+//        Enemy obs1 = new Enemy(terminal.getTerminalSize().getColumns(), 18, 1);
 //        int oldXO = obs1.getxPos(), oldYO=obs1.getyPos();
 
         //Set up Playfield
@@ -87,7 +85,7 @@ public class Main {
                 keyStroke = terminal.pollInput();
                 //move obstacle at interval
 //                if (obs1.getTimer()%80==0) {
-//                    obs1.moveObstacle(terminal, p1);
+//                    obs1.moveEnemy(terminal, p1);
 //                    obs1.setTimer(1);
 //                }
 //                obs1.setTimer(obs1.getTimer()+1);
@@ -196,7 +194,7 @@ public class Main {
         }
     }
 
-    public static void move(Player p, int oldX, int oldY, Terminal terminal/*, Obstacle obs1*/) throws Exception {
+    public static void move(Player p, int oldX, int oldY, Terminal terminal/*, Enemy obs1*/) throws Exception {
         terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
         terminal.setCursorPosition(oldX, oldY);
         terminal.putCharacter(' ');
@@ -232,7 +230,7 @@ public class Main {
         }
     }
 
-    public static void collisionChecker(Player p1, Obstacle obs1, Terminal terminal) throws Exception {
+    public static void collisionChecker(Player p1, Enemy obs1, Terminal terminal) throws Exception {
         if (obs1.getxPos() == p1.getxPos() && obs1.getyPos() == p1.getyPos()) {
             terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
             String deathMess = "-DEAD-";
