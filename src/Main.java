@@ -118,12 +118,20 @@ public class Main {
                     direction = 1;
                     p1.setxPos(p1.getxPos() + direction);
                     move(p1, oldX, oldY, terminal/*, obs1*/);
+                    System.out.println("falling");
+                    if (playGround[p1.getxPos()][p1.getyPos()+1]==0 && p1.getyPos()!=terminal.getTerminalSize().getRows()-2) {
+                        fall(p1,oldX, oldY,playGround,direction,terminal);
+                    }
                     break;
                 }
                 case ArrowLeft: {
                     direction = -1;
                     p1.setxPos(p1.getxPos() + direction);
                     move(p1, oldX, oldY, terminal/*, obs1*/);
+                    System.out.println("falling");
+                    if (playGround[p1.getxPos()][p1.getyPos()+1]==0 && p1.getyPos()!=terminal.getTerminalSize().getRows()-2) {
+                        fall(p1,oldX, oldY,playGround,direction,terminal);
+                    }
                     break;
                 }
             } //end switch
@@ -138,7 +146,7 @@ public class Main {
             oldY = p.getyPos();
 
             if (playGround[p.getxPos()][p.getyPos()-1]==1) {
-                System.out.println("hit floor");
+                System.out.println("hit ceiling");
                 break;
             }
 
@@ -188,6 +196,32 @@ public class Main {
         terminal.setCursorPosition(p.getxPos(), p.getyPos());
         terminal.putCharacter('O');
         terminal.flush();
+    }
+
+    public static void fall(Player p, int oldX, int oldY, int[][]playGround, int direction, Terminal terminal) throws Exception {
+        int currentHeight = p.getyPos();
+
+        for (int i = currentHeight; i > 0; i--) {
+            oldX = p.getxPos();
+            oldY = p.getyPos();
+
+            if (playGround[p.getxPos()][p.getyPos()+1]==1) {
+                System.out.println("hit floor");
+                break;
+            }
+
+            p.setyPos(p.getyPos() + 1);
+            if (i % 3 == 0) p.setxPos(p.getxPos() + direction);
+
+            terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
+            terminal.setCursorPosition(oldX, oldY);
+            terminal.putCharacter(' ');
+            terminal.setBackgroundColor(TextColor.ANSI.GREEN);
+            terminal.setCursorPosition(p.getxPos(), p.getyPos());
+            terminal.putCharacter('O');
+            terminal.flush();
+            Thread.sleep(12+(int)(i/4));
+        }
     }
 
     public static void collisionChecker(Player p1, Obstacle obs1, Terminal terminal) throws Exception {
