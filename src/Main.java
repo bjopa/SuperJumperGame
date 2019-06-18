@@ -157,7 +157,11 @@ public class Main {
             }
 
             p.setyPos(p.getyPos() - 1);
-            if (i % 3 == 0) p.setxPos(p.getxPos() + direction);
+
+            //check hit wall on jump
+            if (i % 3 == 0)
+                if (p.getxPos()+direction!=0 && p.getxPos()+direction!=terminal.getTerminalSize().getColumns()-1)
+                    p.setxPos(p.getxPos() + direction);
 
             terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
             terminal.setCursorPosition(oldX, oldY);
@@ -180,7 +184,10 @@ public class Main {
             }
 
             p.setyPos(p.getyPos() + 1);
-            if (i % 3 == 0) p.setxPos(p.getxPos() + direction);
+            //check hit wall on jump
+            if (i % 3 == 0)
+                if (p.getxPos()+direction!=0 && p.getxPos()+direction!=terminal.getTerminalSize().getColumns()-1)
+                    p.setxPos(p.getxPos() + direction);
 
             terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
             terminal.setCursorPosition(oldX, oldY);
