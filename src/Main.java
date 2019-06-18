@@ -32,7 +32,6 @@ public class Main {
 
         //Set up initial level
         Level level1 = new Level("Level1.txt");
-        System.out.println("LevelString:\n" + level1.getLevelString());
 
         terminal.setForegroundColor(TextColor.ANSI.DEFAULT);
         terminal.setBackgroundColor(TextColor.ANSI.GREEN);

@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Level {
 
@@ -9,25 +11,22 @@ public class Level {
 
     public Level(String filename) throws Exception{
         this.levelString=readLevelFile(filename);
+        stringToArray(this.levelString);
     }
 
     public String readLevelFile(String filename) throws Exception{
         BufferedReader reader = Files.newBufferedReader(Paths.get(filename));
-        return (readAllLines(reader));
-    }
-
-    public String readAllLines(BufferedReader reader) throws Exception {
-        StringBuilder content = new StringBuilder();
-        String line;
-        while ((line=reader.readLine()) != null) {
-            content.append(line);
-            content.append(System.lineSeparator());
-        }
-        return content.toString();
+        return reader.lines().collect(Collectors.joining(System.lineSeparator()));
     }
 
     public String getLevelString() {
         return levelString;
+    }
+
+    public void stringToArray(String levelString) {
+        String[] tempString = levelString.split("\n",0);
+        System.out.println(tempString[16]);
+        //TODO Add string splitter on &
     }
 
 }
