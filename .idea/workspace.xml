@@ -19,13 +19,11 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Main.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="629">
+                <state relative-caret-position="621">
                   <caret line="46" column="21" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#1139#1156#0" />
-                    <element signature="e#2953#3011#0" />
-                    <element signature="e#3459#3486#0" />
                     <element signature="method#jump#0;class#Main#0" />
                     <element signature="method#move#0;class#Main#0" />
                     <element signature="method#collisionChecker#0;class#Main#0" />
@@ -81,8 +79,9 @@
     </dirStrings>
   </component>
   <component name="Git.Settings">
-    <option name="PATH_TO_GIT" value="C:\Users\Björn W Academy\AppData\Local\SourceTree\SourceTree.exe" />
+    <option name="PATH_TO_GIT" value="C:\Users\Björn W Academy\AppData\Local\Atlassian\SourceTree\git_local\bin\git.exe" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -111,7 +110,8 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/SourceTree/SourceTree.exe" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/Atlassian/SourceTree/git_local/bin/git.exe" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -229,6 +229,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="46" column="21" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1139#1156#0" />
+            <element signature="method#jump#0;class#Main#0" />
+            <element signature="method#move#0;class#Main#0" />
+            <element signature="method#collisionChecker#0;class#Main#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Player.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -242,22 +256,6 @@
           <caret line="18" column="21" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="46" column="21" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1139#1156#0" />
-            <element signature="e#2953#3011#0" />
-            <element signature="e#3459#3486#0" />
-            <element signature="method#jump#0;class#Main#0" />
-            <element signature="method#move#0;class#Main#0" />
-            <element signature="method#collisionChecker#0;class#Main#0" />
           </folding>
         </state>
       </provider>
