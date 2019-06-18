@@ -44,7 +44,7 @@ public class Main {
         for (int i=0; i<playGround.length ; i++) {
             for (int j=0 ; j<playGround[i].length; j++) {
                 if (i==0 || i == playGround.length-1) playGround[i][j]=1;
-                else if (i>0 && i<playGround.length){
+                else {
                     if (j==0 || j==playGround[i].length-1) {
                         playGround[i][j]=1;
                     }

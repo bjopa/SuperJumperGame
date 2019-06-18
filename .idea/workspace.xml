@@ -19,8 +19,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Main.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="502">
-                  <caret line="84" column="44" lean-forward="true" selection-start-line="84" selection-start-column="44" selection-end-line="84" selection-end-column="44" />
+                <state relative-caret-position="629">
+                  <caret line="46" column="21" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
                   <folding>
                     <element signature="imports" expanded="true" />
                     <element signature="e#1139#1156#0" />
@@ -161,7 +161,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.22684564" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -172,7 +171,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3286119" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.15439093" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.15439093" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4490085" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -249,8 +248,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="502">
-          <caret line="84" column="44" lean-forward="true" selection-start-line="84" selection-start-column="44" selection-end-line="84" selection-end-column="44" />
+        <state relative-caret-position="629">
+          <caret line="46" column="21" selection-start-line="46" selection-start-column="21" selection-end-line="46" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1139#1156#0" />
