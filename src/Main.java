@@ -41,20 +41,16 @@ public class Main {
 //        }
 
         int[][] playGround = new int[80][24];
-        for (int i=0; i<playGround.length ; i++) {
-            for (int j=0 ; j<playGround[i].length; j++) {
-                if (i==0 || i == playGround.length-1) playGround[i][j]=1;
+        for (int col=0; col<playGround.length ; col++) {
+            for (int row=0 ; row<playGround[col].length; row++) {
+                if (col==0 || col == playGround.length-1) playGround[col][row]=1;
                 else {
-                    if (j==0 || j==playGround[i].length-1) {
-                        playGround[i][j]=1;
-                    }
-                    else if (i>40 && j == 19) {
-                        playGround[i][j]=1;
-                    }
-                    else if (i<35 && j == 17) {
-                        playGround[i][j]=1;
-                    }
-                    else playGround[i][j]=0;
+                    if (row==0 || row==playGround[col].length-1) playGround[col][row] = 1;
+                    else if (col>40 && row == 19) playGround[col][row] = 1;
+                    else if (col>36 && col <40 && row == 15) playGround[col][row]=1;
+                    else if (col == 34 && row > 12 && row < 17) playGround[col][row] = 1;
+                    else if (col<35 && row == 17) playGround[col][row] = 1;
+                    else playGround[col][row]=0;
                 }
             }
         }
