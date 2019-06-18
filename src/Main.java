@@ -116,9 +116,12 @@ public class Main {
                 }
                 case ArrowRight: {
                     direction = 1;
+                    if (p1.getxPos()+direction==terminal.getTerminalSize().getColumns()-1) {
+                        System.out.println("hit wall");
+                        break;
+                    }
                     p1.setxPos(p1.getxPos() + direction);
                     move(p1, oldX, oldY, terminal/*, obs1*/);
-                    System.out.println("falling");
                     if (playGround[p1.getxPos()][p1.getyPos()+1]==0 && p1.getyPos()!=terminal.getTerminalSize().getRows()-2) {
                         fall(p1,oldX, oldY,playGround,direction,terminal);
                     }
@@ -126,9 +129,12 @@ public class Main {
                 }
                 case ArrowLeft: {
                     direction = -1;
+                    if (p1.getxPos()+direction==0) {
+                        System.out.println("hit wall");
+                        break;
+                    }
                     p1.setxPos(p1.getxPos() + direction);
                     move(p1, oldX, oldY, terminal/*, obs1*/);
-                    System.out.println("falling");
                     if (playGround[p1.getxPos()][p1.getyPos()+1]==0 && p1.getyPos()!=terminal.getTerminalSize().getRows()-2) {
                         fall(p1,oldX, oldY,playGround,direction,terminal);
                     }
@@ -164,7 +170,6 @@ public class Main {
         }
 
         int currentHeight = p.getyPos();
-
         for (int i = currentHeight; i > 0; i--) {
             oldX = p.getxPos();
             oldY = p.getyPos();
