@@ -5,8 +5,8 @@ import java.util.stream.Collectors;
 
 public class Level {
 
-    private int[][] levelDesign = new int[24][80];
-    private String[][] levelAsString = new String[24][80];
+    private int[][] levelDesign = new int[80][24];
+    private String[][] levelAsString = new String[80][24];
     private String levelString;
 
     Level(String filename) throws Exception{
@@ -17,10 +17,6 @@ public class Level {
     private String readLevelFile(String filename) throws Exception{
         BufferedReader reader = Files.newBufferedReader(Paths.get(filename));
         return reader.lines().collect(Collectors.joining(System.lineSeparator()));
-    }
-
-    public String getLevelString() {
-        return levelString;
     }
 
     private void stringToArray(String levelString) {
@@ -34,6 +30,14 @@ public class Level {
             for (int j = 0; j < levelAsString[i].length; j++)
                 levelDesign[i][j] = Integer.parseInt(levelAsString[i][j]);
 
+    }
+
+    public int[][] getLevelDesign() {
+        return levelDesign;
+    }
+
+    public String getLevelString() {
+        return levelString;
     }
 
 }

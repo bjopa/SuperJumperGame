@@ -32,6 +32,7 @@ public class Main {
 
         //Set up initial level
         Level level1 = new Level("Level1.txt");
+        int[][] playGround = level1.getLevelDesign();
 
         terminal.setForegroundColor(TextColor.ANSI.DEFAULT);
         terminal.setBackgroundColor(TextColor.ANSI.GREEN);
@@ -74,36 +75,36 @@ public class Main {
                     terminal.close();
                     break;
                 }
-//                case Tab: {
-//                    jump(p1, oldX, oldY, terminal, jumpHeight, direction, playGround);
-//                    break;
-//                }
-//                case ArrowRight: {
-//                    direction = 1;
-//                    if (p1.getxPos() + direction == terminal.getTerminalSize().getColumns() - 1) {
-//                        System.out.println("hit wall");
-//                        break;
-//                    }
-//                    p1.setxPos(p1.getxPos() + direction);
-//                    move(p1, oldX, oldY, terminal);
-//                    if (playGround[p1.getxPos()][p1.getyPos() + 1] == 0 && p1.getyPos() != terminal.getTerminalSize().getRows() - 2) {
-//                        fall(p1, oldX, oldY, playGround, direction, terminal);
-//                    }
-//                    break;
-//                }
-//                case ArrowLeft: {
-//                    direction = -1;
-//                    if (p1.getxPos() + direction == 0) {
-//                        System.out.println("hit wall");
-//                        break;
-//                    }
-//                    p1.setxPos(p1.getxPos() + direction);
-//                    move(p1, oldX, oldY, terminal);
-//                    if (playGround[p1.getxPos()][p1.getyPos() + 1] == 0 && p1.getyPos() != terminal.getTerminalSize().getRows() - 2) {
-//                        fall(p1, oldX, oldY, playGround, direction, terminal);
-//                    }
-//                    break;
-//                }
+                case Tab: {
+                    jump(p1, oldX, oldY, terminal, jumpHeight, direction, playGround);
+                    break;
+                }
+                case ArrowRight: {
+                    direction = 1;
+                    if (p1.getxPos() + direction == terminal.getTerminalSize().getColumns() - 1) {
+                        System.out.println("hit wall");
+                        break;
+                    }
+                    p1.setxPos(p1.getxPos() + direction);
+                    move(p1, oldX, oldY, terminal);
+                    if (playGround[p1.getxPos()][p1.getyPos() + 1] == 0 && p1.getyPos() != terminal.getTerminalSize().getRows() - 2) {
+                        fall(p1, oldX, oldY, playGround, direction, terminal);
+                    }
+                    break;
+                }
+                case ArrowLeft: {
+                    direction = -1;
+                    if (p1.getxPos() + direction == 0) {
+                        System.out.println("hit wall");
+                        break;
+                    }
+                    p1.setxPos(p1.getxPos() + direction);
+                    move(p1, oldX, oldY, terminal);
+                    if (playGround[p1.getxPos()][p1.getyPos() + 1] == 0 && p1.getyPos() != terminal.getTerminalSize().getRows() - 2) {
+                        fall(p1, oldX, oldY, playGround, direction, terminal);
+                    }
+                    break;
+                }
             } //end switch
 
         } //end while
