@@ -1,15 +1,25 @@
 public class Player {
 
+    char face;
     private int xPos;
     private int yPos;
     private int gameCycle;
     private boolean doInitialize;
 
-    public Player(int xPos, int yPos, int gameCycle, boolean doInitialize) {
+    public Player(char face, int xPos, int yPos, int gameCycle, boolean doInitialize) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.gameCycle = gameCycle;
         this.doInitialize=doInitialize;
+        this.face = face;
+    }
+
+    public char getFace() {
+        return face;
+    }
+
+    public void setFace(char face) {
+        this.face = face;
     }
 
     public int getxPos() {

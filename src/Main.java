@@ -7,7 +7,7 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.util.Scanner;
 
 public class Main {
-
+    //TODO Fixa färger!! Klarare gul tex
     public static void main(String[] args) throws Exception {
 
         //Set up Terminal
@@ -17,7 +17,7 @@ public class Main {
 
 
         //Set up Player 1
-        Player theHero = new Player((terminal.getTerminalSize().getColumns() / 2) - 1, terminal.getTerminalSize().getRows() - 2, 1, true);
+        Player theHero = new Player('\u263B', (terminal.getTerminalSize().getColumns() / 2) - 1, terminal.getTerminalSize().getRows() - 2, 1, true);
         int oldX = theHero.getxPos(), oldY = theHero.getyPos();
         int jumpHeight = 7;
         int direction = 1;
@@ -74,9 +74,9 @@ public class Main {
                                 blockType = '\u25B2';
                                 break;
                             case 9:
-                                terminal.setForegroundColor(TextColor.ANSI.YELLOW);
+                                terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
                                 terminal.setBackgroundColor(TextColor.ANSI.BLACK);
-                                blockType = '\u2720';
+                                blockType = '\u2638';
                                 break;
                             default:
                                 continue;
@@ -86,7 +86,7 @@ public class Main {
                     }
                 }
                 //initial status bar print
-                terminal.setForegroundColor(TextColor.ANSI.DEFAULT);
+                terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
                 terminal.setBackgroundColor(TextColor.ANSI.BLUE);
                 String statusBar = "SUPER JUMPER  - LEVEL:" + theHero.getGameCycle();
                 for (int i = 0; i < statusBar.length(); i++) {
@@ -96,10 +96,10 @@ public class Main {
                 terminal.flush();
                 //end of startup/nextlvl
 
-                terminal.setForegroundColor(TextColor.ANSI.DEFAULT);
-                terminal.setBackgroundColor(TextColor.ANSI.GREEN);
+                terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
+                terminal.setBackgroundColor(TextColor.ANSI.BLACK);
                 terminal.setCursorPosition(theHero.getxPos(), theHero.getyPos());
-                terminal.putCharacter('O');
+                terminal.putCharacter(theHero.getFace());
                 terminal.flush();
                 theHero.setDoInitialize(false);
             }
@@ -192,9 +192,10 @@ public class Main {
             terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
             terminal.setCursorPosition(oldX, oldY);
             terminal.putCharacter(' ');
-            terminal.setBackgroundColor(TextColor.ANSI.GREEN);
+            terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
+            terminal.setBackgroundColor(TextColor.ANSI.BLACK);
             terminal.setCursorPosition(p.getxPos(), p.getyPos());
-            terminal.putCharacter('O');
+            terminal.putCharacter(p.getFace());
             terminal.flush();
             Thread.sleep(12 + i * 2);
         }
@@ -205,15 +206,17 @@ public class Main {
             oldY = p.getyPos();
 
             //check hit floor or lava on falling from jump
+            //TODO ersätt med metod?
             if (playGround[p.getxPos()][p.getyPos() + 1] == 1) {
                 break;
             } else if (playGround[p.getxPos()][p.getyPos() + 1] >= 1) {
                 terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
                 terminal.setCursorPosition(oldX, oldY);
                 terminal.putCharacter(' ');
-                terminal.setBackgroundColor(TextColor.ANSI.GREEN);
+                terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
+                terminal.setBackgroundColor(TextColor.ANSI.BLACK);
                 terminal.setCursorPosition(p.getxPos(), p.getyPos());
-                terminal.putCharacter('O');
+                terminal.putCharacter(p.getFace());
                 terminal.flush();
                 switch (playGround[p.getxPos()][p.getyPos() + 1]) {
                     case 2:
@@ -221,9 +224,10 @@ public class Main {
                         terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
                         terminal.setCursorPosition(oldX, oldY);
                         terminal.putCharacter(' ');
-                        terminal.setBackgroundColor(TextColor.ANSI.GREEN);
+                        terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
+                        terminal.setBackgroundColor(TextColor.ANSI.RED);
                         terminal.setCursorPosition(p.getxPos(), p.getyPos());
-                        terminal.putCharacter('O');
+                        terminal.putCharacter(p.getFace());
                         terminal.flush();
                         death("LAVA", p, terminal);
                         break;
@@ -243,9 +247,10 @@ public class Main {
             terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
             terminal.setCursorPosition(oldX, oldY);
             terminal.putCharacter(' ');
-            terminal.setBackgroundColor(TextColor.ANSI.GREEN);
+            terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
+            terminal.setBackgroundColor(TextColor.ANSI.BLACK);
             terminal.setCursorPosition(p.getxPos(), p.getyPos());
-            terminal.putCharacter('O');
+            terminal.putCharacter(p.getFace());
             terminal.flush();
             Thread.sleep(12 + (int) (i / 4));
         }
@@ -255,9 +260,10 @@ public class Main {
         terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
         terminal.setCursorPosition(oldX, oldY);
         terminal.putCharacter(' ');
-        terminal.setBackgroundColor(TextColor.ANSI.GREEN);
+        terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
+        terminal.setBackgroundColor(TextColor.ANSI.BLACK);
         terminal.setCursorPosition(p.getxPos(), p.getyPos());
-        terminal.putCharacter('O');
+        terminal.putCharacter(p.getFace());
         terminal.flush();
     }
 
@@ -277,14 +283,17 @@ public class Main {
             }
 
             p.setyPos(p.getyPos() + 1);
-            if (i % 3 == 0) p.setxPos(p.getxPos() + direction);
+            if (i % 3 == 0)
+                if (playGround[p.getxPos() + direction][p.getyPos()] == 0)
+                    p.setxPos(p.getxPos() + direction);
 
             terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
             terminal.setCursorPosition(oldX, oldY);
             terminal.putCharacter(' ');
-            terminal.setBackgroundColor(TextColor.ANSI.GREEN);
+            terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
+            terminal.setBackgroundColor(TextColor.ANSI.BLACK);
             terminal.setCursorPosition(p.getxPos(), p.getyPos());
-            terminal.putCharacter('O');
+            terminal.putCharacter(p.getFace());
             terminal.flush();
             Thread.sleep(12 + (int) (i / 4));
         }
@@ -315,9 +324,9 @@ public class Main {
                 terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
                 terminal.setCursorPosition(oldX, oldY);
                 terminal.putCharacter(' ');
-                terminal.setBackgroundColor(TextColor.ANSI.GREEN);
+                terminal.setBackgroundColor(TextColor.ANSI.RED);
                 terminal.setCursorPosition(p1.getxPos(), p1.getyPos());
-                terminal.putCharacter('O');
+                terminal.putCharacter(p1.face);
                 terminal.flush();
                 death("LAVA!", p1, terminal);
                 break;
@@ -338,6 +347,8 @@ public class Main {
 
     public static void death(String reason, Player p, Terminal terminal) throws Exception {
         Scanner sc = new Scanner(System.in);
+        //TODO listen to keys
+        //TODO introduce lives
         System.out.println("You died from hitting " + reason);
         System.out.print("Would you like to play again (y/n)?: ");
         String choice = sc.nextLine();
