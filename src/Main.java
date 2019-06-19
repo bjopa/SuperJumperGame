@@ -34,6 +34,17 @@ public class Main {
         Level level1 = new Level("Level1.txt");
         int[][] playGround = level1.getLevelDesign();
 
+        //Draw level
+        for (int i = 0; i < playGround.length; i++) {
+            for (int j = 0; j < playGround[i].length; j++) {
+                if (playGround[i][j] == 1) {
+                    terminal.setCursorPosition(i, j);
+                    terminal.putCharacter('\u2588');
+                }
+            }
+        }
+        terminal.flush();
+
         terminal.setForegroundColor(TextColor.ANSI.DEFAULT);
         terminal.setBackgroundColor(TextColor.ANSI.GREEN);
         terminal.setCursorPosition(p1.getxPos(), p1.getyPos());
@@ -81,8 +92,7 @@ public class Main {
                 }
                 case ArrowRight: {
                     direction = 1;
-                    if (p1.getxPos() + direction == terminal.getTerminalSize().getColumns() - 1) {
-                        System.out.println("hit wall");
+                    if (playGround[p1.getxPos()+direction][p1.getyPos()]==1) {
                         break;
                     }
                     p1.setxPos(p1.getxPos() + direction);
@@ -94,8 +104,7 @@ public class Main {
                 }
                 case ArrowLeft: {
                     direction = -1;
-                    if (p1.getxPos() + direction == 0) {
-                        System.out.println("hit wall");
+                    if (playGround[p1.getxPos()+direction][p1.getyPos()]==1) {
                         break;
                     }
                     p1.setxPos(p1.getxPos() + direction);
@@ -117,7 +126,6 @@ public class Main {
             oldY = p.getyPos();
 
             if (playGround[p.getxPos()][p.getyPos() - 1] == 1) {
-                System.out.println("hit ceiling");
                 break;
             }
 
@@ -144,7 +152,6 @@ public class Main {
             oldY = p.getyPos();
 
             if (playGround[p.getxPos()][p.getyPos() + 1] == 1) {
-                System.out.println("hit floor");
                 break;
             }
 
@@ -183,7 +190,6 @@ public class Main {
             oldY = p.getyPos();
 
             if (playGround[p.getxPos()][p.getyPos() + 1] == 1) {
-                System.out.println("hit floor");
                 break;
             }
 
