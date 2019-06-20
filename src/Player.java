@@ -3,6 +3,7 @@ public class Player {
     char face;
     private int xPos;
     private int yPos;
+    private int lives;
     private int gameCycle;
     private boolean doInitialize;
 
@@ -12,6 +13,7 @@ public class Player {
         this.gameCycle = gameCycle;
         this.doInitialize=doInitialize;
         this.face = face;
+        this.lives = 2;
     }
 
     public char getFace() {
@@ -36,6 +38,14 @@ public class Player {
 
     public void setyPos(int yPos) {
         this.yPos = yPos;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
     }
 
     public int getGameCycle() {

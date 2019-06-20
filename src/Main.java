@@ -7,7 +7,6 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.util.Scanner;
 
 public class Main {
-    //TODO Fixa färger!! Klarare gul tex
     public static void main(String[] args) throws Exception {
 
         //Set up Terminal
@@ -88,7 +87,7 @@ public class Main {
                 //initial status bar print
                 terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
                 terminal.setBackgroundColor(TextColor.ANSI.BLUE);
-                String statusBar = "SUPER JUMPER  - LEVEL:" + theHero.getGameCycle();
+                String statusBar = "SUPER JUMPER  - LEVEL:" + theHero.getGameCycle() + " - LIVES LEFT:" + theHero.getLives();
                 for (int i = 0; i < statusBar.length(); i++) {
                     terminal.setCursorPosition(i + 5, 0);
                     terminal.putCharacter(statusBar.charAt(i));
@@ -131,7 +130,7 @@ public class Main {
                     break;
                 }
                 case Tab: {
-                    jump(theHero, oldX, oldY, terminal, jumpHeight, direction, playGround);
+                    jump(theHero, terminal, jumpHeight, direction, playGround);
                     break;
                 }
                 case ArrowRight: {
@@ -165,14 +164,16 @@ public class Main {
                     break;
                 }
             } //end switch
+            //check if player reached the goal
             if (playGround[theHero.getxPos()][theHero.getyPos()] == 9) levelClear(theHero, terminal);
 
         } //end while
 
     } //end main method
 
-    //TODO remove oldX/Y from method parameters below if possible
-    public static void jump(Player p, int oldX, int oldY, Terminal terminal, int jumpHeight, int direction, int[][] playGround) throws Exception {
+    public static void jump(Player p, Terminal terminal, int jumpHeight, int direction, int[][] playGround) throws Exception {
+        int oldX;
+        int oldY;
         for (int i = 0; i < jumpHeight; i++) {
             oldX = p.getxPos();
             oldY = p.getyPos();
@@ -206,37 +207,39 @@ public class Main {
             oldY = p.getyPos();
 
             //check hit floor or lava on falling from jump
-            //TODO ersätt med metod?
-            if (playGround[p.getxPos()][p.getyPos() + 1] == 1) {
-                break;
-            } else if (playGround[p.getxPos()][p.getyPos() + 1] >= 1) {
-                terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
-                terminal.setCursorPosition(oldX, oldY);
-                terminal.putCharacter(' ');
-                terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
-                terminal.setBackgroundColor(TextColor.ANSI.BLACK);
-                terminal.setCursorPosition(p.getxPos(), p.getyPos());
-                terminal.putCharacter(p.getFace());
-                terminal.flush();
-                switch (playGround[p.getxPos()][p.getyPos() + 1]) {
-                    case 2:
-                        p.setyPos(p.getyPos() + 1);
-                        terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
-                        terminal.setCursorPosition(oldX, oldY);
-                        terminal.putCharacter(' ');
-                        terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
-                        terminal.setBackgroundColor(TextColor.ANSI.RED);
-                        terminal.setCursorPosition(p.getxPos(), p.getyPos());
-                        terminal.putCharacter(p.getFace());
-                        terminal.flush();
-                        death("LAVA", p, terminal);
-                        break;
-                    case 3:
-                        death("SPIKES", p, terminal);
-                        break;
-                }
+            if (playGround[p.getxPos()][p.getyPos() + 1] != 1) {
+                checkFloor(p, playGround, oldX, oldY, direction, terminal);
                 break;
             }
+            //TODO remove commented section below if nothing weird happens
+//            } else if (playGround[p.getxPos()][p.getyPos() + 1] >= 1) {
+//                terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
+//                terminal.setCursorPosition(oldX, oldY);
+//                terminal.putCharacter(' ');
+//                terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
+//                terminal.setBackgroundColor(TextColor.ANSI.BLACK);
+//                terminal.setCursorPosition(p.getxPos(), p.getyPos());
+//                terminal.putCharacter(p.getFace());
+//                terminal.flush();
+//                switch (playGround[p.getxPos()][p.getyPos() + 1]) {
+//                    case 2:
+//                        p.setyPos(p.getyPos() + 1);
+//                        terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
+//                        terminal.setCursorPosition(oldX, oldY);
+//                        terminal.putCharacter(' ');
+//                        terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
+//                        terminal.setBackgroundColor(TextColor.ANSI.RED);
+//                        terminal.setCursorPosition(p.getxPos(), p.getyPos());
+//                        terminal.putCharacter(p.getFace());
+//                        terminal.flush();
+//                        death("LAVA", p, terminal);
+//                        break;
+//                    case 3:
+//                        death("SPIKES", p, terminal);
+//                        break;
+//                }
+//                break;
+//            }
 
             p.setyPos(p.getyPos() + 1);
             //check hit wall on jump
@@ -267,8 +270,10 @@ public class Main {
         terminal.flush();
     }
 
-    public static void fall(Player p, int oldX, int oldY, int[][] playGround, int direction, Terminal terminal) throws Exception {
+    public static void fall(Player p, int[][] playGround, int direction, Terminal terminal) throws Exception {
         int currentHeight = (terminal.getTerminalSize().getRows() - p.getyPos());
+        int oldX;
+        int oldY;
 
         for (int i = currentHeight; i > 0; i--) {
             oldX = p.getxPos();
@@ -299,7 +304,7 @@ public class Main {
         }
     }
 
-    public static void collisionChecker(Player p1, Enemy obs1, Terminal terminal) throws Exception {
+    /*public static void collisionChecker(Player p1, Enemy obs1, Terminal terminal) throws Exception {
         if (obs1.getxPos() == p1.getxPos() && obs1.getyPos() == p1.getyPos()) {
             terminal.setBackgroundColor(TextColor.ANSI.DEFAULT);
             String deathMess = "-DEAD-";
@@ -309,13 +314,13 @@ public class Main {
             }
             terminal.flush();
         }
-    }
+    }*/
 
     public static void checkFloor(Player p1, int[][] playGround, int oldX, int oldY, int direction, Terminal terminal) throws Exception {
         int floorType = playGround[p1.getxPos()][p1.getyPos() + 1];
         switch (floorType) {
             case 0:
-                fall(p1, oldX, oldY, playGround, direction, terminal);
+                fall(p1, playGround, direction, terminal);
                 break;
             case 2:
                 oldY = p1.getyPos();
@@ -348,25 +353,33 @@ public class Main {
     public static void death(String reason, Player p, Terminal terminal) throws Exception {
         Scanner sc = new Scanner(System.in);
         //TODO listen to keys
-        //TODO introduce lives
         System.out.println("You died from hitting " + reason);
-        System.out.print("Would you like to play again (y/n)?: ");
-        String choice = sc.nextLine();
-        switch (choice) {
-            case "y":
-            case "Y":
-                p.setxPos((terminal.getTerminalSize().getColumns() / 2) - 1);
-                p.setyPos((terminal.getTerminalSize().getRows()) - 2);
-                p.setGameCycle(1);
-                p.setDoInitialize(true);
-                System.out.println("Restarting... Switch to terminal!");
-                int oldX = p.getxPos(), oldY = p.getyPos();
-                break;
-            default:
-                terminal.close();
-                System.exit(0);
-                break;
+        p.setLives(p.getLives()-1);
+        if (p.getLives() < 0) {
+            System.out.print("Would you like to play again (y/n)?: ");
+            String choice = sc.nextLine();
+            switch (choice) {
+                case "y":
+                case "Y":
+                    p.setxPos((terminal.getTerminalSize().getColumns() / 2) - 1);
+                    p.setyPos((terminal.getTerminalSize().getRows()) - 2);
+                    p.setGameCycle(1);
+                    p.setLives(2);
+                    p.setDoInitialize(true);
+                    System.out.println("Restarting... Switch to terminal!");
+                    int oldX = p.getxPos(), oldY = p.getyPos();
+                    break;
+                default:
+                    terminal.close();
+                    System.exit(0);
+                    break;
 
+            }
+        }
+        else {
+            p.setxPos((terminal.getTerminalSize().getColumns() / 2) - 1);
+            p.setyPos((terminal.getTerminalSize().getRows()) - 2);
+            p.setDoInitialize(true);
         }
     }
 
