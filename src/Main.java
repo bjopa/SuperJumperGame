@@ -28,10 +28,11 @@ public class Main {
 //        terminal.setCursorPosition(enemy1.getxPos(),enemy1.getyPos());
 //        terminal.putCharacter('O');
 
-        //Set up levels, allocate initial lvl
+        //Set up levels, allocate initial lvl, set up sign
         Level level1 = new Level("Level1.txt");
         Level level2 = new Level("Level2.txt");
         int[][] playGround = level1.getLevelDesign();
+        GameOverSign sign = new GameOverSign("GameOverSign.txt");
 
         //Set up KeyStroke variables
         KeyStroke keyStroke;
@@ -130,7 +131,7 @@ public class Main {
                     break;
                 }
                 case Tab: {
-                    jump(theHero, terminal, jumpHeight, direction, playGround);
+                    jump(theHero, terminal, jumpHeight, direction, playGround, sign);
                     break;
                 }
                 case ArrowRight: {
@@ -143,7 +144,7 @@ public class Main {
                     move(theHero, oldX, oldY, terminal);
                     //check what's under player
                     if (playGround[theHero.getxPos()][theHero.getyPos() + 1] != 1) {
-                        checkFloor(theHero, playGround, oldX, oldY, direction, terminal);
+                        checkFloor(theHero, playGround, oldX, oldY, direction, terminal, sign);
                         break;
                     }
                     break;
@@ -158,7 +159,7 @@ public class Main {
                     move(theHero, oldX, oldY, terminal);
                     //check what's under player
                     if (playGround[theHero.getxPos()][theHero.getyPos() + 1] != 1) {
-                        checkFloor(theHero, playGround, oldX, oldY, direction, terminal);
+                        checkFloor(theHero, playGround, oldX, oldY, direction, terminal, sign);
                         break;
                     }
                     break;
@@ -171,7 +172,7 @@ public class Main {
 
     } //end main method
 
-    public static void jump(Player p, Terminal terminal, int jumpHeight, int direction, int[][] playGround) throws Exception {
+    public static void jump(Player p, Terminal terminal, int jumpHeight, int direction, int[][] playGround, GameOverSign sign) throws Exception {
         int oldX;
         int oldY;
         for (int i = 0; i < jumpHeight; i++) {
@@ -208,7 +209,7 @@ public class Main {
 
             //check hit floor or lava on falling from jump
             if (playGround[p.getxPos()][p.getyPos() + 1] != 1) {
-                checkFloor(p, playGround, oldX, oldY, direction, terminal);
+                checkFloor(p, playGround, oldX, oldY, direction, terminal, sign);
                 break;
             }
             //TODO remove commented section below if nothing weird happens
@@ -270,7 +271,7 @@ public class Main {
         terminal.flush();
     }
 
-    public static void fall(Player p, int[][] playGround, int direction, Terminal terminal) throws Exception {
+    public static void fall(Player p, int[][] playGround, int direction, Terminal terminal, GameOverSign sign) throws Exception {
         int currentHeight = (terminal.getTerminalSize().getRows() - p.getyPos());
         int oldX;
         int oldY;
@@ -283,7 +284,7 @@ public class Main {
                 break;
             }
             if (playGround[p.getxPos()][p.getyPos() + 1] > 1) {
-                checkFloor(p, playGround, oldX, oldY, direction, terminal);
+                checkFloor(p, playGround, oldX, oldY, direction, terminal, sign);
                 break;
             }
 
@@ -316,11 +317,11 @@ public class Main {
         }
     }*/
 
-    public static void checkFloor(Player p1, int[][] playGround, int oldX, int oldY, int direction, Terminal terminal) throws Exception {
+    public static void checkFloor(Player p1, int[][] playGround, int oldX, int oldY, int direction, Terminal terminal, GameOverSign sign) throws Exception {
         int floorType = playGround[p1.getxPos()][p1.getyPos() + 1];
         switch (floorType) {
             case 0:
-                fall(p1, playGround, direction, terminal);
+                fall(p1, playGround, direction, terminal, sign);
                 break;
             case 2:
                 oldY = p1.getyPos();
@@ -333,10 +334,10 @@ public class Main {
                 terminal.setCursorPosition(p1.getxPos(), p1.getyPos());
                 terminal.putCharacter(p1.face);
                 terminal.flush();
-                death("LAVA!", p1, terminal);
+                death("LAVA!", p1, terminal, sign);
                 break;
             case 3:
-                death("SPIKES!", p1, terminal);
+                death("SPIKES!", p1, terminal, sign);
             default:
                 break;
         }
@@ -350,17 +351,73 @@ public class Main {
         p.setDoInitialize(true);
     }
 
-    public static void death(String reason, Player p, Terminal terminal) throws Exception {
+    public static void death(String reason, Player p, Terminal terminal, GameOverSign sign) throws Exception {
         Scanner sc = new Scanner(System.in);
         //TODO listen to keys
         System.out.println("You died from hitting " + reason);
-        p.setLives(p.getLives()-1);
+        p.setLives(p.getLives() - 1);
         if (p.getLives() < 0) {
-            System.out.print("Would you like to play again (y/n)?: ");
-            String choice = sc.nextLine();
-            switch (choice) {
-                case "y":
-                case "Y":
+
+            //GAMEOVERSIGN
+            char[][] signC = sign.getSignDesign();
+            for (int i = 0; i < signC.length; i++) {
+                for (int j = 0; j < signC[i].length; j++) {
+                    char blockType;
+                    switch (signC[i][j]) {
+                        case '0':
+                            terminal.setBackgroundColor(TextColor.ANSI.WHITE);
+                            terminal.setBackgroundColor(TextColor.ANSI.BLUE);
+                            blockType = ' ';
+                            break;
+                        case '1':
+                            terminal.setForegroundColor(TextColor.ANSI.RED);
+                            terminal.setBackgroundColor(TextColor.ANSI.GREEN);
+                            blockType = '\u2588';
+                            break;
+                        case '2':
+                            terminal.setForegroundColor(TextColor.ANSI.YELLOW);
+                            terminal.setBackgroundColor(TextColor.ANSI.RED);
+                            blockType = '\u25B2';
+                            break;
+                        case '3':
+                            terminal.setForegroundColor(TextColor.ANSI.WHITE);
+                            terminal.setBackgroundColor(TextColor.ANSI.BLACK);
+                            blockType = '\u25B2';
+                            break;
+                        case '9':
+                            terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
+                            terminal.setBackgroundColor(TextColor.ANSI.BLACK);
+                            blockType = '\u2638';
+                            break;
+                        default:
+                            terminal.setForegroundColor(TextColor.Indexed.fromRGB(255, 255, 0));
+                            terminal.setBackgroundColor(TextColor.ANSI.BLACK);
+                            blockType = signC[i][j];
+                            break;
+                    }
+                    terminal.setCursorPosition(28 + i, 5 + j);
+                    terminal.putCharacter(blockType);
+                }
+            }
+            terminal.flush();
+
+            boolean hasResponded = false;
+            KeyStroke keyStroke;
+            char c;
+            do {
+                do {
+                    Thread.sleep(5);
+                    keyStroke = terminal.pollInput();
+                } while (keyStroke==null);
+                switch (keyStroke.getKeyType()) {
+                    case Character: if (keyStroke.getCharacter()=='y' || keyStroke.getCharacter()=='n') hasResponded=true;
+                    break;
+                }
+            } while (!hasResponded);
+            c = keyStroke.getCharacter();
+
+            switch (c) {
+                case 'y':
                     p.setxPos((terminal.getTerminalSize().getColumns() / 2) - 1);
                     p.setyPos((terminal.getTerminalSize().getRows()) - 2);
                     p.setGameCycle(1);
@@ -373,10 +430,8 @@ public class Main {
                     terminal.close();
                     System.exit(0);
                     break;
-
             }
-        }
-        else {
+        } else {
             p.setxPos((terminal.getTerminalSize().getColumns() / 2) - 1);
             p.setyPos((terminal.getTerminalSize().getRows()) - 2);
             p.setDoInitialize(true);

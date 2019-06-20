@@ -36,8 +36,8 @@ public class Level {
         return levelDesign;
     }
 
-    public String getLevelString() {
+    /*public String getLevelString() {
         return levelString;
-    }
+    }*/
 
 }
