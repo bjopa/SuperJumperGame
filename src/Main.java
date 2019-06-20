@@ -32,13 +32,15 @@ public class Main {
         Level level1 = new Level("Level1.txt");
         Level level2 = new Level("Level2.txt");
         int[][] playGround = level1.getLevelDesign();
-        Message[] messages = new Message[3];
+        Message[] messages = new Message[4];
         Message gameOverSign = new Message("GameOverSign.txt");
         Message deathNoteLava = new Message("DeathNoteLava.txt");
         Message deathNoteSpikes = new Message("DeathNoteSpikes.txt");
+        Message stageClear = new Message("StageClear.txt");
         messages[0] = gameOverSign;
         messages[1] = deathNoteLava;
         messages[2] = deathNoteSpikes;
+        messages[3] = stageClear;
 
         //Set up KeyStroke variables
         KeyStroke keyStroke;
@@ -172,7 +174,7 @@ public class Main {
                 }
             } //end switch
             //check if player reached the goal
-            if (playGround[theHero.getxPos()][theHero.getyPos()] == 9) levelClear(theHero, terminal);
+            if (playGround[theHero.getxPos()][theHero.getyPos()] == 9) levelClear(theHero, terminal, messages);
 
         } //end while
 
@@ -289,7 +291,7 @@ public class Main {
             if (playGround[p.getxPos()][p.getyPos() + 1] == 1) {
                 break;
             }
-            if (playGround[p.getxPos()][p.getyPos() + 1] > 1) {
+            if (playGround[p.getxPos()][p.getyPos() + 1] > 1 && playGround[p.getxPos()][p.getyPos() + 1] !=9) {
                 checkFloor(p, playGround, oldX, oldY, direction, terminal, messages);
                 break;
             }
@@ -315,6 +317,7 @@ public class Main {
         int floorType = playGround[p1.getxPos()][p1.getyPos() + 1];
         switch (floorType) {
             case 0:
+            case 9:
                 fall(p1, playGround, direction, terminal, messages);
                 break;
             case 2: //lava
@@ -340,8 +343,8 @@ public class Main {
         }
     }
 
-    public static void levelClear(Player p, Terminal terminal) throws Exception {
-        System.out.println("WELL DONE - GO AHEAD!");
+    public static void levelClear(Player p, Terminal terminal, Message[] messages) throws Exception {
+        displayMessage(messages[3].getSignDesign(), terminal,0);
         p.setxPos((terminal.getTerminalSize().getColumns() / 2) - 1);
         p.setyPos((terminal.getTerminalSize().getRows()) - 2);
         p.setGameCycle(p.getGameCycle() + 1);
