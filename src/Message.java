@@ -3,13 +3,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
-public class GameOverSign {
+public class Message {
 
     private char[][] signDesign = new char[25][10];
     private String[][] signAsString = new String[25][10];
     private String signString;
 
-    GameOverSign(String filename) throws Exception {
+    Message(String filename) throws Exception {
         this.signString = readSignFile(filename);
         stringToArray((this.signString));
     }
