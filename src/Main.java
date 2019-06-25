@@ -31,7 +31,7 @@ public class Main {
         //Set up levels, allocate initial lvl, set up signs
         Level level1 = new Level("Level1.txt");
         Level level2 = new Level("Level2.txt");
-        int[][] playGround = level1.getLevelDesign();
+        int[][] playGround = level2.getLevelDesign();
         Message[] messages = new Message[4];
         Message gameOverSign = new Message("GameOverSign.txt");
         Message deathNoteLava = new Message("DeathNoteLava.txt");

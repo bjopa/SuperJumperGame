@@ -1,15 +1,18 @@
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.terminal.Terminal;
 
-public class Enemy {
+public abstract class Enemy {
     private int xPos;
     private int yPos;
-    private int timer;
+    private int speed;
 
-    public Enemy(/*int[] body*/ int xPos, int yPos, int timer) {
+//    public Enemy() {
+//
+//    }
+
+    public Enemy(int xPos, int yPos, int timer) {
         this.xPos = xPos;
         this.yPos = yPos;
-        this.timer = timer;
     }
 
     public int getxPos() {
@@ -28,14 +31,6 @@ public class Enemy {
         this.yPos = yPos;
     }
 
-    public int getTimer() {
-        return timer;
-    }
-
-    public void setTimer(int timer) {
-        this.timer = timer;
-    }
-
     public void moveEnemy(Terminal terminal, Player p1) throws  Exception {
 
         int oldXO = xPos;
@@ -51,4 +46,5 @@ public class Enemy {
         terminal.flush();
 
     }
+
 }
